@@ -19,7 +19,7 @@ export class DiscordService implements OnModuleInit, OnModuleDestroy {
     this.client = new Client({
       intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers, // Requer habilitação no Discord Developer Portal
+        // GatewayIntentBits.GuildMembers, // Descomente após habilitar no Discord Developer Portal
         GatewayIntentBits.DirectMessages,
       ],
     });
@@ -155,34 +155,16 @@ export class DiscordService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async findUserByUsername(username: string): Promise<User | null> {
-    this.logger.warn(
-      '⚠️ Busca por username requer a intent "SERVER MEMBERS INTENT" habilitada. ' +
-      'Para usar username, habilite a intent no Discord Developer Portal (Bot → Privileged Gateway Intents). ' +
-      'Alternativamente, use userId que funciona sem intents privilegiadas.',
+    this.logger.error(
+      '❌ Busca por username NÃO está disponível. ' +
+      'A intent "SERVER MEMBERS INTENT" precisa ser habilitada no Discord Developer Portal. ' +
+      'Por favor, use userId em vez de username, ou habilite a intent e descomente GatewayIntentBits.GuildMembers no código.',
     );
 
-    const normalizedUsername = username.toLowerCase().trim();
-    const guilds = this.client.guilds.cache;
-
-    for (const guild of guilds.values()) {
-      try {
-        const members = await guild.members.fetch();
-        const member = members.find(
-          (m) => m.user.username.toLowerCase() === normalizedUsername,
-        );
-
-        if (member) {
-          return member.user;
-        }
-      } catch (error) {
-        this.logger.warn(
-          `Não foi possível buscar no servidor ${guild.name}. ` +
-          `Habilite "SERVER MEMBERS INTENT" no Discord Developer Portal.`,
-        );
-      }
-    }
-
-    return null;
+    throw new Error(
+      'Busca por username requer a intent "SERVER MEMBERS INTENT" habilitada. ' +
+      'Use userId ou habilite a intent no Discord Developer Portal (Bot → Privileged Gateway Intents → SERVER MEMBERS INTENT).',
+    );
   }
 
   private async sendDM(user: User, message: string): Promise<void> {
