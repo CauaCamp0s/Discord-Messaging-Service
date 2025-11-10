@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+.env
+.env.local
+*.log
+.DS_Store
+src
+nest-cli.json
+tsconfig.json
+package.json
+package-lock.json
+README.md
+
