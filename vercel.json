@@ -1,9 +1,8 @@
 {
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": ".next",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "rootDirectory": "Discord Messaging Service Frontend"
+  "buildCommand": "cd \"Discord Messaging Service Frontend\" && npm install && npm run build",
+  "outputDirectory": "Discord Messaging Service Frontend/.next",
+  "installCommand": "cd \"Discord Messaging Service Frontend\" && npm install",
+  "framework": null,
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./Discord\\ Messaging\\ Service\\ Frontend"
 }
 
